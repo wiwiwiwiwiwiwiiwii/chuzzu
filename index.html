@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>private access 💌</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  background:#fff5f8;
+  font-family:'Quicksand',sans-serif;
+  color:#ff4d88;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  overflow:hidden;
+}
+
+.screen{
+  position:absolute;
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:20px;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.6s ease;
+}
+
+.active{
+  opacity:1;
+  pointer-events:auto;
+}
+
+h1{
+  font-family:'Pacifico',cursive;
+  font-size:36px;
+  margin-bottom:10px;
+}
+
+button{
+  background:#ff4d88;
+  border:none;
+  padding:12px 25px;
+  color:white;
+  font-size:16px;
+  border-radius:30px;
+  cursor:pointer;
+  margin-top:15px;
+  transition:0.3s;
+}
+
+button:hover{
+  background:#ff1a66;
+  transform:scale(1.05);
+}
+
+input{
+  padding:12px;
+  border-radius:25px;
+  border:2px solid #ffb6c1;
+  outline:none;
+  margin-top:15px;
+  text-align:center;
+}
+
+.card{
+  background:white;
+  padding:25px;
+  border-radius:20px;
+  box-shadow:0 10px 30px rgba(255,77,136,0.15);
+  max-width:500px;
+}
+
+.hidden{display:none;}
+
+.shake{
+  animation:shake 0.4s;
+}
+
+@keyframes shake{
+  0%{transform:translateX(0);}
+  25%{transform:translateX(-5px);}
+  50%{transform:translateX(5px);}
+  75%{transform:translateX(-5px);}
+  100%{transform:translateX(0);}
+}
+
+video{
+  width:100%;
+  border-radius:20px;
+  margin-top:15px;
+}
+
+.star{
+  font-size:30px;
+  margin:5px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- PASSWORD SCREEN -->
+<div id="screen1" class="screen active">
+  <div class="card">
+    <h1>Private Access 💌</h1>
+    <p>What do I call you?</p>
+    <input type="password" id="passwordInput">
+    <br>
+    <button onclick="checkPassword()">unlock</button>
+    <p id="passError" class="hidden">that’s not it.</p>
+  </div>
+</div>
+
+<!-- IS IT YOU -->
+<div id="screen2" class="screen">
+  <div class="card">
+    <h1>Wait… is it really you?</h1>
+    <button onclick="goToScreen(3)">prove it</button>
+  </div>
+</div>
+
+<!-- BIRTHDAY CHECK -->
+<div id="screen3" class="screen">
+  <div class="card" id="birthdayCard">
+    <p>One small question.<br>When is my birthday?</p>
+    <button onclick="wrongBirthday()">4th March</button>
+    <button onclick="correctBirthday()">4th April</button>
+    <p id="birthdayError" class="hidden">Try again, Dumbo.</p>
+  </div>
+</div>
+
+<!-- CONFIRMATION -->
+<div id="screen4" class="screen">
+  <div class="card">
+    <h1>oka that’s you</h1>
+    <p>you may enter now cutuu</p>
+    <button onclick="goToScreen(5)">enter 💗</button>
+  </div>
+</div>
+
+<!-- SHAYARI -->
+<div id="screen5" class="screen">
+  <div class="card">
+    <h1>Shotu Shayari for Shotu</h1>
+    <p>
+      tu dil main kuch yun aaye😏🔥<br>
+      humare din sajaye🥺🐤<br>
+      dimag se bhale hi ho shotu🥺🤏🏻<br>
+      par nikalti jaati smile dekh ke teri fotu😉😏
+    </p>
+    <button onclick="showClap()">Clap for me</button>
+    <p id="clapText" class="hidden">Thank you. I deserve that.</p>
+    <button id="nextAfterClap" class="hidden" onclick="goToScreen(6)">continue</button>
+  </div>
+</div>
+
+<!-- VIDEO SECTION -->
+<div id="screen6" class="screen">
+  <div class="card">
+    <h1>I love my boyfriend final boss</h1>
+    <p>#ILoveMyBoyfriendFinalBoss</p>
+    <!-- Replace video.mp4 with your file name -->
+    <video controls>
+      <source src="video.mp4" type="video/mp4">
+    </video>
+    <button onclick="goToScreen(7)">next</button>
+  </div>
+</div>
+
+<!-- THE END -->
+<div id="screen7" class="screen">
+  <div class="card">
+    <div>
+      <span class="star">⭐</span>
+      <span class="star">⭐</span>
+      <span class="star">⭐</span>
+      <h1>THE END.</h1>
+      <span class="star">⭐</span>
+      <span class="star">⭐</span>
+    </div>
+    <button onclick="finalClap()">Clap again</button>
+    <p id="finalClapText" class="hidden">Thank you. Still deserve it.</p>
+  </div>
+</div>
+
+<script>
+function goToScreen(num){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen'+num).classList.add('active');
+}
+
+function checkPassword(){
+  const input = document.getElementById("passwordInput").value.toLowerCase();
+  if(input === "chuzu"){
+    goToScreen(2);
+  } else {
+    document.getElementById("passError").classList.remove("hidden");
+  }
+}
+
+function wrongBirthday(){
+  document.getElementById("birthdayError").classList.remove("hidden");
+  const card = document.getElementById("birthdayCard");
+  card.classList.add("shake");
+  setTimeout(()=>card.classList.remove("shake"),400);
+}
+
+function correctBirthday(){
+  goToScreen(4);
+}
+
+function showClap(){
+  document.getElementById("clapText").classList.remove("hidden");
+  document.getElementById("nextAfterClap").classList.remove("hidden");
+}
+
+function finalClap(){
+  document.getElementById("finalClapText").classList.remove("hidden");
+}
+</script>
+
+</body>
+</html>
